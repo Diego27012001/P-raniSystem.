@@ -12,12 +12,10 @@ import {
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
-import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
+
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import axios from 'axios';
-import { createUser } from 'src/redux/states/user';
 
-
+import { useSelector } from 'react-redux';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -161,35 +159,23 @@ const SubMenuWrapper = styled(Box)(
 `
 );
 
-const SidebarMenu = ()=> {
-  
-  const [data, setData] = useState([])
-  const [typeUser, setTypeUser] = useState(true)
+const SidebarMenu = () => {
+  const [data, setData] = useState([]);
+  const [typeUser, setTypeUser] = useState(true);
   const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
+
+  const objetoRecuperadoString = localStorage.getItem('user');
+  const user = JSON.parse(objetoRecuperadoString);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/employee')
-    .then((response) => {
-      const userFind = response.data.find(
-        (e) => e.user_id == id);
-        setData(userFind);
-        if(userFind.typeId===1){
-          setTypeUser(true)
-        }else{
-          setTypeUser(false)
-        }        
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-
+    if (user.typeId == 1) {
+      setTypeUser(true);
+    } else {
+      setTypeUser(false);
+    }
   }, []);
 
-
   const { closeSidebar } = useContext(SidebarContext);
-  
 
   return (
     <>
@@ -764,10 +750,29 @@ const SidebarMenu = ()=> {
       )}
     </>
   );
-}
+};
 
 export default SidebarMenu;
-function dispatcher(arg0: any) {
-  throw new Error('Function not implemented.');
-}
 
+/*
+
+  const id = new URLSearchParams(location.search).get("id");
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/employee')
+    .then((response) => {
+      const userFind = response.data.find(
+        (e) => e.user_id == id);
+        setData(userFind);
+        if(userFind.typeId===1){
+          setTypeUser(true)
+        }else{
+          setTypeUser(false)
+        }        
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+
+  }, []);*/

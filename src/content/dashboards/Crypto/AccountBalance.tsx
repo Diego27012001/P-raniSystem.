@@ -3,15 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const AvatarSuccess = styled(Avatar)(
-  ({ theme }) => `
-      background-color: ${theme.colors.success.main};
-      color: ${theme.palette.success.contrastText};
-      width: ${theme.spacing(8)};
-      height: ${theme.spacing(8)};
-      box-shadow: ${theme.colors.shadows.success};
-`
-);
+import Example from './Grafico/Grafico'
 
 function AccountBalance() {
   const [employee, setEmployee] = useState(0);
@@ -25,8 +17,7 @@ function AccountBalance() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const localTime = new Date(time.getTime() + -180 * 60 * 1000);
-
+ 
   useEffect(() => {
     axios
       .get('http://localhost:3001/employee')
@@ -44,37 +35,15 @@ function AccountBalance() {
       <Grid spacing={0} container>
         <CardContent
           sx={{
-            height: '100px',
+            height: '500px',
             width: '100%',
             display: 'flex',
             justifyContent: 'space-around'
           }}
         >
-          <Card
-            sx={{
-              background: '#ff7961',
-              width: '20%'
-            }}
-          >
-            
-            <i className="fa-regular fa-users-line"></i>
-          </Card>
-
-          <Card
-            sx={{
-              background: '#ff7961',
-              height: '10px',
-              width: '20%'
-            }}
-          ></Card>
-
-          <Card
-            sx={{
-              background: '#ff7961',
-              height: '10px',
-              width: '20%'
-            }}
-          ></Card>
+          
+            <Example />
+         
         </CardContent>
       </Grid>
     </Card>

@@ -20,11 +20,12 @@ import {
 } from '../../../helpers/fecha';
 import postAxios from 'src/helpers/postAxios';
 
-const data = () => {
+const data = (user) => {
   const markedDate = getDate();
   const markedHour = getTime();
   const timeExtra = getTimeExtra('08:00 AM', getTime());
   const status_marked = getStateTime('08:00', getTime());
+  console.log(user);
   const d = {
     date: markedDate,
     entry_time: markedHour,
@@ -32,8 +33,8 @@ const data = () => {
     late_time: timeExtra,
     status_marked: status_marked,
     extraTime: '00:00',
-    employeeId: 1
-  };
+    employeeId: user.user_id
+  }
   return d;
 };
 
@@ -41,7 +42,9 @@ const Assist = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [error, setError] = useState(true);
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(true)
+  const objeto = localStorage.getItem('user');
+  const user = JSON.parse(objeto);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -68,9 +71,9 @@ const Assist = () => {
     const punto = new google.maps.LatLng(latitude, longitude);
     const estaDentro = circulo.getBounds().contains(punto);
 
-    if (estaDentro) {
-      const datos = data();
-
+    if (!estaDentro) {
+      const datos = data(user);
+      
       const endpoint1 = 'http://localhost:3001/marked/new';
 
       postAxios(endpoint1, datos).then((respuesta) => {
@@ -104,7 +107,7 @@ const Assist = () => {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Eder Castro Fernanez
+              {user.nameuser} {user.lastnameuser}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Tiena Pirani 2

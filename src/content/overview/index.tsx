@@ -293,9 +293,172 @@ export default function SignUp() {
 import { useState, useEffect, useRef } from 'react';
 import * as faceapi from 'face-api.js';
 import axios from 'axios';
-import { Avatar, Button, Card, Typography } from '@mui/material';
+import { Button, Card, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { createUser } from 'src/redux/states/user';
 
 const Login = () => {
+
+  return (
+    <Card
+      sx={{
+        margin: '5%'
+      }}
+    >
+     Hola
+    </Card>
+  );
+};
+
+export default Login;
+
+/*
+
+ <div
+        style={{
+          margin: '10% auto'
+        }}
+      >
+        <Typography component="h1" variant="h5" align="center">
+          Tienda Pirani
+        </Typography>
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%'
+          }}
+        >
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            height={videoHeight}
+            width={videoWidth}
+            onPlay={handleVideoOnPlay}
+            style={{
+              margin: '10% auto',
+              width: '80%'
+            }}
+          />
+          <canvas
+            ref={canvasRef}
+            style={{
+              position: 'absolute',
+              margin: '80% auto'
+            }}
+          />
+        </div>
+
+        <div>
+          {employee.map((e) => {
+            return (
+              <div key={e.user_id}>
+                <img
+                  className="photo"
+                  key={e.user_id}
+                  src={`http://localhost:3001/employee/photo/${e.user_id}`}
+                  style={{
+                    display: 'none'
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '5%'
+          }}
+        >
+          <Button
+            style={{
+              width: '40%'
+            }}
+            className="suceess"
+            onClick={async () => {
+              console.log('k');
+              const faceDescriptor = await faceapi
+                .detectSingleFace(
+                  videoRef.current,
+                  new faceapi.TinyFaceDetectorOptions()
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptor();
+
+              const faceMatcher = new faceapi.FaceMatcher(
+                faceDescriptor.descriptor,
+                0.5
+              );
+              console.log(faceDescriptor);
+
+              const imgs = comparar();
+
+              for (let index = 0; index < imgs.length; index++) {
+                console.log(imgs[index]);
+                const foto_login = await faceapi
+                  .detectSingleFace(imgs[index])
+                  .withFaceLandmarks()
+                  .withFaceDescriptor();
+
+                const bestMatch = faceMatcher.findBestMatch(
+                  foto_login.descriptor
+                );
+
+                if (bestMatch.label === 'person 1') {
+                  // El rostro detectado coincide con la persona1
+                  const user = employee[index];
+                  const emplo = {
+                    user_id: user.user_id,
+                    nameuser: user.nameuser,
+                    lastnameuser: user.lastnameuser,
+                    storeId: user.storeId,
+                    typeId: user.typeId
+                  };
+
+                  const objetoString = JSON.stringify(emplo);
+                  localStorage.setItem("user", objetoString);
+
+
+                  window.location.replace(
+                    'http://localhost:3000/management/transactions'
+                  );
+
+                  console.log(
+                    'El rostro detectado coincide con la persona, permiso concedido'
+                  );
+                } else {
+                  // El rostro detectado no coincide con ninguna persona registrada
+                  console.log(
+                    'El rostro detectado no coincide con ninguna persona registrada, permiso denegado'
+                  );
+                }
+              }
+
+              /*
+          
+          console.log(foto_login);
+          console.log(comparar());
+          console.log(faceMatcher);
+          
+          
+        }}
+        >
+         
+          INGRESAR
+        </Button>
+      </div>
+    </div>*/
+
+
+
+    /*
+      const dispatcher = useDispatch();
   const [employee, setEmployee] = useState([]);
   useEffect(() => {
     axios
@@ -366,7 +529,7 @@ const Login = () => {
         .clearRect(0, 0, videoWidth, videoHeight);
       faceapi.draw.drawDetections(canvasRef.current, resizedDetections);
       faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetections);
-      //faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections);*/
+      //faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections);
     }, 100);
   };
 
@@ -380,143 +543,4 @@ const Login = () => {
       imagenes.push(img);
     }
     return imagenes;
-  };
-  return (
-    <Card
-      sx={{
-        margin: '5%'
-      }}
-    >
-      <div
-        style={{
-          margin: '10% auto'
-        }}
-      >
-        <Typography component="h1" variant="h5" align="center">
-          Tienda Pirani
-        </Typography>
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%'
-          }}
-        >
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            height={videoHeight}
-            width={videoWidth}
-            onPlay={handleVideoOnPlay}
-            style={{
-              margin: '10% auto',
-              width: '80%'
-            }}
-          />
-          <canvas
-            ref={canvasRef}
-            style={{
-              position: 'absolute',
-              margin: '80% auto'
-            }}
-          />
-        </div>
-
-        <div>
-          {employee.map((e) => {
-            return (
-              <div key={e.user_id}>
-                <img
-                  className="photo"
-                  key={e.user_id}
-                  src={`http://localhost:3001/employee/photo/${e.user_id}`}
-                  style={{
-                    display: 'none'
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '5%'
-          }}
-        >
-        
-          <Button
-            style={{
-              width: '40%'
-            }}
-            className="suceess"
-            onClick={async () => {
-              console.log('k')
-              const faceDescriptor = await faceapi
-                .detectSingleFace(
-                  videoRef.current,
-                  new faceapi.TinyFaceDetectorOptions()
-                )
-                .withFaceLandmarks()
-                .withFaceDescriptor();
-                
-              const faceMatcher = new faceapi.FaceMatcher(
-                faceDescriptor.descriptor,
-                0.5
-              );
-              console.log(faceDescriptor);
-
-              const imgs = comparar();
-
-              for (let index = 0; index < imgs.length; index++) {
-                console.log(imgs[index]);
-                const foto_login = await faceapi
-                  .detectSingleFace(imgs[index])
-                  .withFaceLandmarks()
-                  .withFaceDescriptor();
-
-                if (faceMatcher === undefined) {
-                  console.log('Rostro no detectado')
-                } else {
-                  const bestMatch = faceMatcher.findBestMatch(
-                    foto_login.descriptor
-                  );
-
-                  if (bestMatch.label === 'person 1') {
-                    // El rostro detectado coincide con la persona1
-                    console.log(
-                      'El rostro detectado coincide con la persona, permiso concedido'
-                    );
-                  } else {
-                    // El rostro detectado no coincide con ninguna persona registrada
-                    console.log(
-                      'El rostro detectado no coincide con ninguna persona registrada, permiso denegado'
-                    );
-                  }
-                }
-              }
-
-              /*
-          
-          console.log(foto_login);
-          console.log(comparar());
-          console.log(faceMatcher);
-          
-          */
-            }}
-          >
-            {' '}
-            INGRESAR{' '}
-          </Button>
-        </div>
-      </div>
-    </Card>
-  );
-};
-
-export default Login;
+  };*/

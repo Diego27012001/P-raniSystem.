@@ -23,6 +23,9 @@ function ManagementUserProfile() {
     followers: '465'
   };
 
+  const objetoRecuperadoString = localStorage.getItem('user');
+  const use = JSON.parse(objetoRecuperadoString);
+
   return (
     <>
       <Helmet>
@@ -39,9 +42,7 @@ function ManagementUserProfile() {
           <Grid item xs={12} md={8}>
             <ProfileCover user={user} />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <RecentActivity />
-          </Grid>
+
           <Grid item xs={12} md={8}>
             <Feed />
           </Grid>
@@ -62,3 +63,11 @@ function ManagementUserProfile() {
 }
 
 export default ManagementUserProfile;
+
+
+/* 
+          
+          <Grid item xs={12} md={4}>
+            <RecentActivity />
+          </Grid>
+          */

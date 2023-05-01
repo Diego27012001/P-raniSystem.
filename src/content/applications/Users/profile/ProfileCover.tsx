@@ -79,6 +79,9 @@ const CardCoverAction = styled(Box)(
 );
 
 const ProfileCover = ({ user }) => {
+  const objetoRecuperadoString = localStorage.getItem('user');
+  const use = JSON.parse(objetoRecuperadoString);
+
   return (
     <>
       <Box display="flex" mb={3}>
@@ -89,10 +92,10 @@ const ProfileCover = ({ user }) => {
         </Tooltip>
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
-            Profile for {user.name}
+           Perfil de  {use.nameuser}
           </Typography>
           <Typography variant="subtitle2">
-            This is a profile page. Easy to modify, always blazing fast
+            Este es su pagina de perfil. La modificacion del mismo, esta bajo responsibilidad del administrador.
           </Typography>
         </Box>
       </Box>
@@ -101,40 +104,36 @@ const ProfileCover = ({ user }) => {
         <CardCoverAction>
           <Input accept="image/*" id="change-cover" multiple type="file" />
           <label htmlFor="change-cover">
-            <Button
-              startIcon={<UploadTwoToneIcon />}
-              variant="contained"
-              component="span"
-            >
-              Change cover
-            </Button>
           </label>
         </CardCoverAction>
       </CardCover>
       <AvatarWrapper>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
-        <ButtonUploadWrapper>
-          <Input
-            accept="image/*"
-            id="icon-button-file"
-            name="icon-button-file"
-            type="file"
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton component="span" color="primary">
-              <UploadTwoToneIcon />
-            </IconButton>
-          </label>
-        </ButtonUploadWrapper>
+        <Avatar variant="rounded" alt={user.name} src={`http://localhost:3001/employee/photo/${use.user_id}`} />
+        
       </AvatarWrapper>
       <Box py={2} pl={2} mb={3}>
         <Typography gutterBottom variant="h4">
-          {user.name}
+          {use.nameuser}
         </Typography>
-        <Typography variant="subtitle2">{user.description}</Typography>
+        <Typography variant="subtitle2">  {use.typeId == 1 ? 'Administrador' : 'vendedor'}</Typography>
         <Typography sx={{ py: 2 }} variant="subtitle2" color="text.primary">
-          {user.jobtitle} | {user.location} | {user.followers} followers
+          {use.lastnameuser} | {use.storeId == 1 ? 'Piura Centro' : 'Piura Centro Junin'}
         </Typography>
+
+      </Box>
+    </>
+  );
+};
+
+ProfileCover.propTypes = {
+  // @ts-ignore
+  user: PropTypes.object.isRequired
+};
+
+export default ProfileCover;
+
+
+/*
         <Box
           display={{ xs: 'block', md: 'flex' }}
           alignItems="center"
@@ -160,14 +159,4 @@ const ProfileCover = ({ user }) => {
             See all {user.followers} connections
           </Button>
         </Box>
-      </Box>
-    </>
-  );
-};
-
-ProfileCover.propTypes = {
-  // @ts-ignore
-  user: PropTypes.object.isRequired
-};
-
-export default ProfileCover;
+        */

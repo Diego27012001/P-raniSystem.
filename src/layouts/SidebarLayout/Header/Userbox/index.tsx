@@ -59,11 +59,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-  const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
-  };
+ 
 
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -75,16 +71,19 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+  const avatar = '/static/images/avatars/1.jpg';
+  const objetoRecuperadoString = localStorage.getItem('user');
+  const use = JSON.parse(objetoRecuperadoString);
 
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+        <Avatar variant="rounded" alt={use.nameuser} src={avatar} />
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{use.nameuser}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {use.typeId == 1 ? 'Administrador' : 'vendedor'}
             </UserBoxDescription>
           </UserBoxText>
         </Hidden>
@@ -106,11 +105,11 @@ function HeaderUserbox() {
         }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-          <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+          <Avatar variant="rounded" alt={use.nameuser} src={avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{use.nameuser}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {use.typeId == 1 ? 'Administrador' : 'vendedor'}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -118,26 +117,28 @@ function HeaderUserbox() {
         <List sx={{ p: 1 }} component="nav">
           <ListItem button to="/management/profile/details" component={NavLink}>
             <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary="My Profile" />
+            <ListItemText primary="Mi Perfil" />
           </ListItem>
-          <ListItem button to="/dashboards/messenger" component={NavLink}>
-            <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Messenger" />
-          </ListItem>
+
           <ListItem
             button
             to="/management/profile/settings"
             component={NavLink}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary="Account Settings" />
+            <ListItemText primary="Cuenta" />
           </ListItem>
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" onClick={()=>{
+            localStorage.clear();
+            window.location.replace(
+              'http://localhost:3000'
+            );
+          }} fullWidth>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
+            Cerrar Sesion
           </Button>
         </Box>
       </Popover>
@@ -146,3 +147,9 @@ function HeaderUserbox() {
 }
 
 export default HeaderUserbox;
+
+/*
+          <ListItem button to="/dashboards/messenger" component={NavLink}>
+            <InboxTwoToneIcon fontSize="small" />
+            <ListItemText primary="Messenger" />
+          </ListItem>*/

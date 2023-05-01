@@ -2,11 +2,14 @@ import { Typography,  Grid } from '@mui/material';
 
 
 function PageHeader() {
+
+  const objetoRecuperadoString = localStorage.getItem('user');
+  const user = JSON.parse(objetoRecuperadoString);
   return (
     <>
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Bienvenido Eder
+          Bienvenido {user.nameuser} {user.lastnameuser}
         </Typography>
       </Grid>
       
